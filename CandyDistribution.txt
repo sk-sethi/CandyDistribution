@@ -1,0 +1,49 @@
+class CandyDistribution
+    {
+        /*There are n children standing in a line.Each child is assigned a rating value given in the integer array ratings.
+        You are giving candies to these children subjected to the following requirements:
+        Each child must have at least one candy.
+        Children with a higher rating get more candies than their neighbors.
+        Return the minimum number of candies you need to have to distribute the candies to the children.*/
+        public static void Main()
+        {
+            int[] cand = {1,0,2 };
+            Console.WriteLine($"Minimum candy needed {MinCandy(cand)}");
+            Console.Read();
+        }
+
+        public static int MinCandy(int[] cand)
+        {
+            int[] left2right = new int[cand.Length];
+            int[] right2left = new int[cand.Length];
+
+            
+            for(int i =0;i< left2right.Length; i++)
+            {
+                left2right.SetValue(1, i);
+                right2left.SetValue(1, i);
+
+            }
+            int sum = 0;
+            //1 0 2
+            for(int i=1; i< cand.Length;i++)
+            {
+                if(cand[i] > cand[i - 1])
+                {
+                    left2right[i] = left2right[i - 1] + 1;
+                }
+            }
+            //1 0 2
+            for(int j =cand.Length-2; j >= 0; j--)
+            {
+                if (cand[j] > cand[j+1])
+                    right2left[j] = right2left[j+1] + 1;
+            }
+
+            for(int k=0;k< left2right.Length;k++)
+            {
+                sum += Math.Max(left2right[k], right2left[k]);
+            }
+            return sum;
+        }
+    }
